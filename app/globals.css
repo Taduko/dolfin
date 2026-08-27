@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette + editorial depth */
+  --color-forest: #1B3A2D;
+  --color-forest-deep: #0E2019;
+  --color-gold: #C9A84C;
+  --color-gold-light: #E2CE96;
+  --color-cream: #FAF8F4;
+  --color-sand: #F1EADD;
+  --color-ink: #1A1A1A;
+
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-forest);
+}
+
+/* Editorial emphasis: a single word in elegant Playfair italic.
+   Used inside display headings via i18n rich text or <em>. */
+em,
+.em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Balanced line breaks for display headings (editorial typesetting) */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ---- Motion ---- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.animate-fade-up { animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes scroll-nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+.animate-scroll-nudge { animation: scroll-nudge 2.2s ease-in-out infinite; }
+
+@keyframes ken-burns {
+  from { transform: scale(1.02); }
+  to   { transform: scale(1.14); }
+}
+
+.animate-ken-burns { animation: ken-burns 24s ease-out forwards; }
+
+/* Stagger for orchestrated hero reveal (pairs with .animate-fade-up) */
+.delay-1 { animation-delay: 0.12s; }
+.delay-2 { animation-delay: 0.28s; }
+.delay-3 { animation-delay: 0.46s; }
+.delay-4 { animation-delay: 0.62s; }
+
+/* ---- Scroll reveal ----
+   Sections fade up as they enter the viewport. Paired with the <Reveal>
+   client component, which toggles .is-visible via IntersectionObserver. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-scroll-nudge,
+  .animate-ken-burns { animation: none; }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
